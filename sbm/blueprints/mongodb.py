@@ -3,11 +3,14 @@ from flask import request
 from flask import jsonify
 
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 from sbm.blueprints import schema
 from sbm.blueprints.schema import Entity
 from sbm.blueprints.schema import StyleOfCube
 from sbm.blueprints.schema import Service
+
+from sbm.blueprints.schema import update_in_entity
 
 bp = Blueprint('mongo', __name__)
 client = MongoClient()
@@ -17,8 +20,8 @@ db = client['sbmdb']
 schema.init(db)
 
 
-def json_msg(str):
-    return jsonify({'msg': str})
+def json_msg(str_msg):
+    return jsonify({'msg': str_msg})
 
 
 def res_not_json_format():
@@ -33,16 +36,17 @@ def res_wrong_parameters():
     return json_msg("Wrong parameters"), 405
 
 
-def res_succeed_request(id):
+def res_succeed_request(oid):
     return jsonify({
-        'id': id,
+        'id': str(oid),
         'msg': "Succeed the request"}), 200
 
 
+# /api/entity
+# POST, GET, DELETE
+
 @bp.route('/entity', methods=['POST'])
 def add_entity():
-    # logger = current_app.logger
-
     if not request.is_json:
         return res_not_json_format()
 
@@ -50,27 +54,40 @@ def add_entity():
 
     try:
         entity = Entity(doc['topic'])
-
         entity.set_network(doc['network']['router'],
                            doc['network']['address'])
+
+        if 'inputs' in doc:
+            for item in doc['inputs']:
+                entity.add('inputs', item['tag'], item['num'])
+        if 'outputs' in doc:
+            for item in doc['outputs']:
+                entity.add('outputs', item['tag'], item['num'])
+
     except KeyError:
         return res_wrong_fields_in_json()
 
-    id = entity.insert()
-    # TODO: Check whather insert() fails or not
+    oid = entity.insert()
 
-    return res_succeed_request(id)
+    if not oid:
+        # TODO: Check whather insert() fails or not
+        pass
+
+    style = StyleOfCube(oid)
+    style.insert()
+
+    return res_succeed_request(oid)
 
 
 @bp.route('/entity', methods=['GET'])
 def get_entity():
     try:
-        id = request.args['id']
+        oid = ObjectId(request.args['id'])
     except KeyError:
         return res_wrong_parameters()
 
     entity = Entity()
-    if entity.load(id):
+    if entity.load(oid):
         return jsonify(entity.get_dict()), 200
 
     return jsonify({}), 204
@@ -79,17 +96,42 @@ def get_entity():
 @bp.route('/entity', methods=['DELETE'])
 def del_entity():
     try:
-        id = request.args['id']
+        oid = ObjectId(request.args['id'])
     except KeyError:
         return res_wrong_parameters()
 
     entity = Entity()
-    
-    if entity.load(id):
+
+    if entity.load(oid):
+        # Delete the style of cube togetger.
+        style = StyleOfCube()
+        style.load(oid)
+
+        style.delete()
         entity.delete()
         
-    return res_succeed_request(id)
+    return res_succeed_request(oid)
 
+
+@bp.route('/entity/topic', methods=['PUT'])
+def change_topic():
+    try:
+        oid = ObjectId(request.args['id'])
+        topic = request.args['topic']
+    except:
+        return res_wrong_parameters()
+
+    update_in_entity(oid, 'topic', topic)
+    return res_succeed_request(oid)
+
+"""
+/api/style_of_cube
+
+POST and DELTE methods are used for test
+because when the entity creation request, 
+cube style is created togetger. 
+
+"""
 
 @bp.route('/style_of_cube', methods=['POST'])
 def add_style_of_cube():
@@ -103,22 +145,22 @@ def add_style_of_cube():
     except KeyError:
         return res_wrong_fields_in_json()
 
-    id = style_of_cube.insert()
+    oid = style_of_cube.insert()
     # TODO: Check whather insert() fails or not
 
-    return res_succeed_request(id)
+    return res_succeed_request(oid)
 
 
 @bp.route('/style_of_cube', methods=['GET'])
 def get_style_of_cube():
     try:
-        id = request.args['id']
+        oid = ObjectId(request.args['id'])
     except KeyError:
         return res_wrong_parameters()
 
-    style_of_cube = StyleOfCube()
-    if style_of_cube.load(id):
-        return jsonify(style_of_cube.get_dict()), 200
+    style = StyleOfCube()
+    if style.load(oid):
+        return jsonify(style.get_dict()), 200
 
     # the style of cube does not exist in DB.
     return jsonify({}), 204
@@ -127,16 +169,18 @@ def get_style_of_cube():
 @bp.route('/style_of_cube', methods=['DELETE'])
 def del_style_of_cube():
     try:
-        id = request.args['id']
+        oid = ObjectId(request.args['id'])
     except KeyError:
         return res_wrong_parameters()
 
-    style_of_cube = StyleOfCube()
-    if style_of_cube.load(id):
-        style_of_cube.delete()
+    style = StyleOfCube()
+    if style.load(oid):
+        style.delete()
 
-    return res_succeed_request(id), 200
+    return res_succeed_request(oid), 200
 
+# /api/service
+# POST, GET, DELETE
 
 @bp.route('/service', methods=['POST'])
 def add_service():
@@ -146,25 +190,25 @@ def add_service():
     doc = request.json
 
     try:
-        style_of_cube = Service(doc['name'])
+        service = Service(doc['name'])
     except KeyError:
         return res_wrong_fields_in_json()
 
-    id = style_of_cube.insert()
+    oid = service.insert()
     # TODO: Check whather insert() fails or not
 
-    return res_succeed_request(id)
+    return res_succeed_request(oid)
 
 
 @bp.route('/service', methods=['GET'])
 def get_service():
     try:
-        id = request.args['id']
+        oid = ObjectId(request.args['id'])
     except KeyError:
         return res_wrong_parameters()
 
     service = Service()
-    if service.load(id):
+    if service.load(oid):
         return jsonify(service.get_dict()), 200
 
     # The service does not exist in DB.
@@ -174,12 +218,12 @@ def get_service():
 @bp.route('/service', methods=['DELETE'])
 def del_service():
     try:
-        id = request.args['id']
+        oid = ObjectId(request.args['id'])
     except KeyError:
         return res_wrong_parameters()
 
     service = Service()
-    if service.load(id):
+    if service.load(oid):
         service.delete()
 
-    return res_succeed_request(id), 200
+    return res_succeed_request(oid), 200
