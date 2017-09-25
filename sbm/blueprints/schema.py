@@ -1,29 +1,22 @@
 def init(db):
-    Entity.Collections = db['entities']
-    StyleOfCube.Collections = db['style_of_cubes']
-    Service.Collections = db['services']
+    Entity.Col = db['entities']
+    StyleOfCube.Col = db['style_of_cubes']
+    Service.Col = db['services']
 
 
-def update_field(col, oid, field, value):
-    return col.update_one({
-        '_id': oid
-    }, {
-        '$set': {
-            field: value
-        }
-    })
+def _update_field(col, oid, field, value):
+    return col.update_one({'_id': oid},
+                          {'$set': {field: value}})
 
 
-def update_in_entity(oid, field, value):
-    return update_field(Entity.Collections, oid, field, value)
+def _push_item(col, oid, field, value):
+    return col.update_one({'_id': oid},
+                          {'$push': {field: value}})
 
 
-def update_in_style_of_cube(oid, field, value):
-    return update_field(StyleOfCube.Collections, oid, field, value)
-
-
-def update_in_service(oid, field, value):
-    return update_field(Service.Collections, oid, field, value)
+def _pull_item(col, oid, field, value):
+    return col.update_one({'_id': oid},
+                          {'$pull': {field: value}})
 
 
 class BaseMethod:
@@ -31,7 +24,7 @@ class BaseMethod:
         return self._dict
 
     def load(self, oid):
-        self._dict = self.Collections.find_one({
+        self._dict = self.Col.find_one({
             '_id': oid})
 
         if not self._dict:
@@ -40,16 +33,16 @@ class BaseMethod:
         return True
 
     def insert(self):
-        return self.Collections.insert_one(self._dict).inserted_id
+        return self.Col.insert_one(self._dict).inserted_id
 
     def delete(self):
-        ret = self.Collections.delete_one({
+        ret = self.Col.delete_one({
             '_id': self._dict['_id']})
 
         return ret.deleted_count > 0
 
     def update(self):
-        ret = self.Collections.replace_one(
+        ret = self.Col.replace_one(
             {'_id': self._dict['_id']},
             self._dict)
         return ret.matched_count > 0
@@ -75,11 +68,18 @@ class Entity(BaseMethod):
             'tag': tag,
             'num': num})
 
-    def delete(self, in_out, num):
+    def delete_inout(self, in_out, num):
         for item in self._dict[in_out]:
             if item['num'] == num:
                 dict[in_out].remove(item)
                 break
+
+    @staticmethod
+    def update_field(oid, field, value):
+        _update_field(Entity.Col,
+                      oid,
+                      field,
+                      value)
 
 
 class StyleOfCube(BaseMethod):
@@ -106,14 +106,68 @@ class StyleOfCube(BaseMethod):
         self._dict['y'] = y
         self._dict['z'] = z
 
+    @staticmethod
+    def update_field(oid, field, value):
+        _update_field(StyleOfCube.Col,
+                      oid,
+                      field,
+                      value)
+
 
 class Service(BaseMethod):
     def __init__(self, name=""):
         self._dict = {}
         self._dict['name'] = name
+        self._dict['entities'] = []
+        self._dict['links'] = []
 
     def link(self, _out, _in):
-        pass
+        entities = self._dict['entities']
+
+        try:
+            entities.index(_out)
+        except ValueError:
+            entities.append(_out)
+
+        try:
+            entities.index(_in)
+        except ValueError:
+            entities.append(_in)
+
+        self._dict['links'].append({
+            'out_oid': _out,
+            'in_oid': _in})
 
     def unlink(self, _out, _in):
-        pass
+        links = self._dict['links']
+        for link in links:
+            if link['out_oid'] == _out and link['in_oid'] == _in:
+                links.remove(link)
+                break
+
+    @staticmethod
+    def update_field(oid, field, value):
+        _update_field(Service.Col,
+                      oid,
+                      field,
+                      value)
+
+    @staticmethod
+    def add_link(oid, _out, _in):
+        _push_item(Service.Col, oid, 'links', {
+            'out_oid': _out,
+            'in_oid': _in})
+
+    @staticmethod
+    def del_link(oid, _out, _in):
+        _pull_item(Service.Col, oid, 'links', {
+            'oid_oid': _out,
+            'in_oid': _in})
+
+    @staticmethod
+    def add_entity(s_oid, e_oid):
+        _push_item(Service.Col, s_oid, 'entities', e_oid)
+
+    @staticmethod
+    def del_entity(s_oid, e_oid):
+        _pull_item(Service.Col, s_oid, 'entities', e_oid)

@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2017-09-21T09:05:43.482Z",
+	"__export_date": "2017-09-25T07:27:35.180Z",
 	"__export_source": "insomnia.desktop.app:v5.8.4",
 	"resources": [
 		{
@@ -70,7 +70,7 @@
 		{
 			"_id": "req_5914fd380cb54b2baf5f8715f9643525",
 			"parentId": "fld_fd7b79c562c543f69e6dab9bb0bc948b",
-			"modified": 1505979279261,
+			"modified": 1506067247922,
 			"created": 1505907771418,
 			"url": "127.0.0.1:5000/api/entity",
 			"name": "entity",
@@ -78,7 +78,7 @@
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"topic\": \"temperature\",\n\t\"network\": {\n\t\t\"router\": \"r1\",\n\t\t\"address\": \"127.0.0.1\"\n\t}\n}"
+				"text": "{\n\t\"topic\": \"temperature\",\n\t\"network\": {\n\t\t\"router\": \"r1\",\n\t\t\"address\": \"127.0.0.1\"\n\t},\n\t\"inputs\": [\n\t\t{\"tag\": \"ta1\", \"num\": 1},\n\t\t{\"tag\": \"ta2\", \"num\": 2}\n\t],\n\t\"outputs\": []\n}"
 			},
 			"parameters": [],
 			"headers": [
@@ -99,9 +99,9 @@
 		{
 			"_id": "req_b2eb5bb72701457d8553093f9305fb02",
 			"parentId": "fld_fd7b79c562c543f69e6dab9bb0bc948b",
-			"modified": 1505983469410,
+			"modified": 1506320197055,
 			"created": 1505912979857,
-			"url": "127.0.0.1:5000/api/entity?id=59c373a5732de927140ce12b",
+			"url": "127.0.0.1:5000/api/entity?id=59c89f3b732de96962e9d88b",
 			"name": "entity",
 			"description": "",
 			"method": "GET",
@@ -119,9 +119,9 @@
 		{
 			"_id": "req_f2fea301856445c0914f3c1ccf5b1e0c",
 			"parentId": "fld_fd7b79c562c543f69e6dab9bb0bc948b",
-			"modified": 1505979270180,
+			"modified": 1506320205463,
 			"created": 1505916195324,
-			"url": "127.0.0.1:5000/api/entity?id=59c265a5530a6931d9c303ce",
+			"url": "127.0.0.1:5000/api/entity?id=59c89f3b732de96962e9d88b",
 			"name": "entity",
 			"description": "",
 			"method": "DELETE",
@@ -130,6 +130,26 @@
 			"headers": [],
 			"authentication": {},
 			"metaSortKey": -1505979215233.5,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_3501084e7302460b9fd2a73e934e67a7",
+			"parentId": "fld_fd7b79c562c543f69e6dab9bb0bc948b",
+			"modified": 1506321678410,
+			"created": 1506069983110,
+			"url": "127.0.0.1:5000/api/entity/topic?id=59c4c363732de9288232c76b&topic=temp",
+			"name": "entity/topic",
+			"description": "",
+			"method": "PUT",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1505979215333.5,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,
@@ -168,9 +188,9 @@
 		{
 			"_id": "req_4584184325434cc68651f68836adbb0c",
 			"parentId": "fld_5818c079276e482dafc553595e6c9382",
-			"modified": 1505979358660,
+			"modified": 1506323246306,
 			"created": 1505979105972,
-			"url": "127.0.0.1:5000/api/style_of_cube?id=59c36ab3732de920106ff6ba",
+			"url": "127.0.0.1:5000/api/style_of_cube?id=59c8ab14732de971b1d501df",
 			"name": "style_of_cube",
 			"description": "",
 			"method": "GET",
@@ -208,7 +228,7 @@
 		{
 			"_id": "req_d2f8e2d67dd6405f894e71a5901dc3a2",
 			"parentId": "fld_0cfd0b99e5484ded8ed296cbb32a13b8",
-			"modified": 1505983919637,
+			"modified": 1506063463522,
 			"created": 1505980534077,
 			"url": "127.0.0.1:5000/api/service",
 			"name": "service",
