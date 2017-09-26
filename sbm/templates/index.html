@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<link rel="stylesheet" type="text/css" href="static/semantic/semantic.min.css">
+	<script
+	    src="https://code.jquery.com/jquery-3.1.1.min.js"
+	    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+	    crossorigin="anonymous"></script>
+	<script src="static/semantic/semantic.min.js"></script>
+    </head>
+    <body>
+	<div class="ui left floated raised compact segments">
+	    <div class="ui fitted hidden divider"></div>
+	    <div class="ui toggle checkbox">
+		<input type="checkbox">
+		<label>Extend Entity View</label>
+	    </div>
+	    <div class="ui fitted hidden divider"></div>
+	    <div class="ui dropdown segment">
+		<i class="filter icon"></i>
+		<span class="text">Filter Device Types</span>
+		<div class="menu">
+		    <div class="ui icon search input">
+			<i class="search icon"></i>
+			<input type="text" placeholder="Search device types...">
+		    </div>
+		    <div class="divider"></div>
+		    <div class="scrolling menu">
+			<div class="item">
+			    <div class="ui red empty circular label"></div>
+			    Sensor
+			</div>
+			<div class="item">
+			    <div class="ui blue empty circular label"></div>
+			    Actuator
+			</div>
+			<div class="item">
+			    <div class="ui green empty circular label"></div>
+			    Complex
+			</div>
+		    </div>
+		</div>
+	    </div>
+
+	    <div class="ui fitted divider"></div>
+	    <div class="ui scrolling middle aligned selection list">
+		<div class="item">
+		    <div class="right floated content">
+			<button class ="compact ui circular mini green icon button" data-tooltip="Add a device to the service.">
+			    <i class="plus icon"></i>
+			</button>
+			<button class ="compact ui circular mini red icon button">
+			    <i class="remove icon"></i>
+			</button>
+		    </div>
+		    <img class="ui avatar image" src="/images/avatar2/small/lena.png">
+		    <div class="ui black label button" data-tooltip="Click to want more information." >
+			<i class="ui red power icon"></i>
+			Temperature
+		    </div>
+		</div>
+		<div class="ui fitted divider"></div>
+
+		<div class="item">
+		    <div class="right floated content">
+			<button class ="compact ui circular mini green icon button">
+			    <i class="plus icon"></i>
+			</button>
+			<button class ="compact ui circular mini red icon button">
+			    <i class="remove icon"></i>
+			</button>
+		    </div>
+		    <img class="ui avatar image" src="/images/avatar2/small/lena.png">
+		    <div class="ui black label">
+			<i class="green power icon"></i>
+			Humdity			
+		    </div>		    		    
+		</div>
+		<div class="ui fitted divider"></div>
+
+		<div class="item">
+		    <div class="right floated content">
+			<button class ="compact ui circular mini green icon button">
+			    <i class="plus icon"></i>
+			</button>
+			<button class ="compact ui circular mini red icon button">
+			    <i class="remove icon"></i>
+			</button>
+		    </div>
+		    <img class="ui avatar image" src="/images/avatar2/small/lena.png">
+		    <div class="ui black label">
+			<i class="green power icon"></i>
+			Remote controller
+		    </div>
+		</div>
+		<div class="ui fitted divider"></div>
+
+		<div class="item">
+		    <div class="right floated content">
+			<button class ="compact ui circular mini green icon button">
+			    <i class="plus icon"></i>
+			</button>
+			<button class ="compact ui circular mini red icon button">
+			    <i class="remove icon"></i>
+			</button>
+		    </div>
+		    <img class="ui avatar image" src="/images/avatar2/small/lena.png">
+		    <div class="ui black label">
+			<i class="green power icon"></i>
+			CCTV
+		    </div>
+		</div>
+		<div class="ui fitted divider"></div>
+	    </div>
+	</div>
+    </body>
+    <script type="text/javascript">
+     $('.ui.dropdown').dropdown();     
+    </script>
+</html>
