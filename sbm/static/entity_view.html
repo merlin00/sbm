@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<htam>
-    <head>
-	<link rel="stylesheet" type="text/css" href="static/semantic/semantic.min.css">
-	<script
-	    src="https://code.jquery.com/jquery-3.1.1.min.js"
-	    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-	    crossorigin="anonymous"></script>
-	<script src="static/semantic/semantic.min.js"></script>
-    </head>
-    <body>
-	<div class="ui left floated raised compact segments">
+	<div class="ui left floated raised compact segments" id="entity_view">
 	    <div class="ui fitted hidden divider"></div>
 	    <div class="ui toggle checkbox">
 		<input type="checkbox">
@@ -45,28 +34,8 @@
 		    </div>
 		</div>
 	    </div>
-
 	    <div class="ui fitted divider"></div>
-	    <div class="ui scrolling middle aligned selection list">
-	    </div>
-
 	    
+	    <div class="ui scrolling middle aligned selection list"> </div>
 	</div> 	    
-    </body>
 
-    <script type="text/javascript">
-     $('.ui.dropdown').dropdown();     
-    </script>
-    <script type="html/tpl" id="entity_item_template">	 
-    </script>
-    <script type="text/javascript">
-
-     $(document).ready(function() {
-	 $("body").load('static/entity_view.html');
-     });
-     
-     
-    </script>
-
-
-</html>

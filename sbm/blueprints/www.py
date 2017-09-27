@@ -9,6 +9,6 @@ def index():
     return render_template('index.html')
 
 
-@bp.route('/test')
+@bp.route('/entity_view')
 def entity_view():
-    return render_template('entityview.html')
+    return render_template('entitylist.html')
