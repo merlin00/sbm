@@ -1,46 +1,33 @@
 <template>
-    <div class="item">
-	<div class="right floated content">
-	    <button class ="compact ui circular mini green icon button" data-tooltip="Add a device to the service.">
-		<i class="plus icon"></i>
-	    </button>
-	    <button class ="compact ui circular mini red icon button">
-		<i class="remove icon"></i>
-	    </button>
+    <div class="item" onload="test()">
+	<div class="left floated content"
+	     style="width:3em;height:3em"
+	     id="_img">
+	    img
 	</div>
-	<img class="ui avatar image" src="/images/avatar2/small/lena.png">
-	<div class="ui black label button" data-tooltip="Click to want more information." >
-	    <i class="ui red power icon"></i>
-	    Temperature
-	</div>
-    </div>
-
-    <div class="item">
-	<div class="content" id="status">
-	    <i class="ui large green power icon"></i>
-	    <i class="ui large blue linkify icon"></i>
-	    <i class="ui large map outline icon"></i>
-	    <i class="ui large blue world icon"></i>
-	</div>
-	<div class="content" id="action">
-	    <div class="right floated content">
-		<button class ="ui circular mini green icon button"
-				data-tooltip="Add a device to the service.">
-		    <i class="plus icon"></i>
-		</button>
-		<!-- 
-		     <button class ="ui circular mini red icon button">
-		     <i class="remove icon"></i>
-		     </button>
-		   -->
+	<div class="content">
+	    <div class="content" id="status">
+		<i class="ui green power icon"></i>
+		<i class="ui blue linkify icon"></i>
+		<i class="ui map outline icon"></i>
+		<i class="ui blue world icon"></i>
 	    </div>
 	    
-	    <div class="ui black label button" id="topic"
-		 data-position="right center"
-		 data-tooltip="Click to want more information."
-		 style="width:18em; text-align:left">
-		Temperature
+	    <div class="content">
+		<div class="ui black label" id="topic"
+		     data-position="right center"
+		     style="width:60%;text-align:left">
+		    Temperature
+		</div>
+		<div class="right floated content"
+		     style="width:2em"
+		     id="_action">
+		    <button class ="ui mini olive icon button">
+			<i class="plus icon"></i>
+		    </button>
+		</div>
 	    </div>
+	    
 	</div>
     </div>
 </template>
