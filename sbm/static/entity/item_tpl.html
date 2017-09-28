@@ -1,0 +1,46 @@
+<template>
+    <div class="item">
+	<div class="right floated content">
+	    <button class ="compact ui circular mini green icon button" data-tooltip="Add a device to the service.">
+		<i class="plus icon"></i>
+	    </button>
+	    <button class ="compact ui circular mini red icon button">
+		<i class="remove icon"></i>
+	    </button>
+	</div>
+	<img class="ui avatar image" src="/images/avatar2/small/lena.png">
+	<div class="ui black label button" data-tooltip="Click to want more information." >
+	    <i class="ui red power icon"></i>
+	    Temperature
+	</div>
+    </div>
+
+    <div class="item">
+	<div class="content" id="status">
+	    <i class="ui large green power icon"></i>
+	    <i class="ui large blue linkify icon"></i>
+	    <i class="ui large map outline icon"></i>
+	    <i class="ui large blue world icon"></i>
+	</div>
+	<div class="content" id="action">
+	    <div class="right floated content">
+		<button class ="ui circular mini green icon button"
+				data-tooltip="Add a device to the service.">
+		    <i class="plus icon"></i>
+		</button>
+		<!-- 
+		     <button class ="ui circular mini red icon button">
+		     <i class="remove icon"></i>
+		     </button>
+		   -->
+	    </div>
+	    
+	    <div class="ui black label button" id="topic"
+		 data-position="right center"
+		 data-tooltip="Click to want more information."
+		 style="width:18em; text-align:left">
+		Temperature
+	    </div>
+	</div>
+    </div>
+</template>

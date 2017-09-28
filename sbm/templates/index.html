@@ -8,18 +8,11 @@
 	    crossorigin="anonymous"></script>
 	<script src="static/semantic/semantic.min.js"></script>
 
-	<link rel="import" href="static/entity_view.html">
+	<link rel="import" href="static/entity/view.html">
     </head>
     <body>
-	<div></div>
     </body>
     <script type="text/javascript">
-     $.ajax({
-	 url: "/entity_view",
-	 cache: false
-     }).done(function(html) {
-	 $("body").append(html);
-     });
-
+     attach_entity_view_to('body')
     </script>
 </html>
