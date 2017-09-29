@@ -9,13 +9,15 @@
 	<script src="static/semantic/semantic.min.js"></script>
 
 	<link rel="import" href="static/entity/view.html">
+	<link rel="import" href="static/entity/item_tpl.html">
     </head>
     <body>
 	<div id="ddd" style="width:40%;height:50%">
-	    
 	</div>
     </body>
+    <script type="text/javascript" src="static/entity/view.js"></script>
     <script type="text/javascript">
-     attach_entity_view_to('#ddd')
+     import_entity_view("static/entity/view.html");
+     attach_entity_view_to("#ddd");
     </script>
 </html>

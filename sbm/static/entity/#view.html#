@@ -17,7 +17,7 @@
 	    </button>
 	</div>
     </div>
-    <div class="ui dropdown">
+    <div class="ui dropdown" id="_filter">
 	<i class="filter icon"></i>
 	<span class="text">Filter Entity Types</span>
 	<div class="menu">
@@ -46,7 +46,7 @@
 	</div>
     </div>
 
-    <div class="ui divider" ></div>
+    <div class="ui divider"></div>
     <div class="ui scrolling animated selection list"
 	 id="_list"></div>
 </div>    
