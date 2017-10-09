@@ -10,6 +10,7 @@ from sbm.blueprints.schema import Entity
 from sbm.blueprints.schema import StyleOfCube
 from sbm.blueprints.schema import Service
 
+from sbm.blueprints.schema import get_entities
 
 bp = Blueprint('mongo', __name__)
 client = MongoClient()
@@ -121,8 +122,9 @@ def rename_topic():
     return res_succeed_request(oid)
 
 
-@bp.route('/entity/all', method=['GET'])
+@bp.route('/entity/all', methods=['GET'])
 def get_all_entities():
+    get_entities()
     return jsonify({}), 204
 
 

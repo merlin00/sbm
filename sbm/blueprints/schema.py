@@ -19,6 +19,11 @@ def _pull_item(col, oid, field, value):
                           {'$pull': {field: value}})
 
 
+def get_entities():
+    for item in Entity.Col.find():
+        print(item)
+
+
 class BaseMethod:
     def get_dict(self):
         return self._dict
