@@ -121,6 +121,11 @@ def rename_topic():
     return res_succeed_request(oid)
 
 
+@bp.route('/entity/all', method=['GET'])
+def get_all_entities():
+    return jsonify({}), 204
+
+
 """
 /api/style_of_cube
 

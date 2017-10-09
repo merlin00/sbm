@@ -40,12 +40,17 @@ function resize_entity_view() {
 
 function add_item(topic) {
     var item = _entity_view_html.importNode(_tpl.content, true);
+    $(item).find('#topic').text(topic);
     $(document).find('#_entity #_list').append(item);
 }
 
 $(document).ready(function() {
     console.log('ready');
     add_item("test");
-
+    add_item("test");
+    add_item("test");
+    add_item("test");
+    add_item("test");
+    add_item("test");
 })
 
