@@ -5,12 +5,12 @@ from flask import jsonify
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 
+import json
+
 from sbm.blueprints import schema
 from sbm.blueprints.schema import Entity
 from sbm.blueprints.schema import StyleOfCube
 from sbm.blueprints.schema import Service
-
-from sbm.blueprints.schema import get_entities
 
 bp = Blueprint('mongo', __name__)
 client = MongoClient()
@@ -124,8 +124,8 @@ def rename_topic():
 
 @bp.route('/entity/all', methods=['GET'])
 def get_all_entities():
-    get_entities()
-    return jsonify({}), 204
+    items = list(Entity.get_all_entities())
+    return jsonify(items), 200
 
 
 """

@@ -19,11 +19,6 @@ def _pull_item(col, oid, field, value):
                           {'$pull': {field: value}})
 
 
-def get_entities():
-    for item in Entity.Col.find():
-        print(item)
-
-
 class BaseMethod:
     def get_dict(self):
         return self._dict
@@ -85,6 +80,14 @@ class Entity(BaseMethod):
                       oid,
                       field,
                       value)
+
+    @staticmethod
+    def get_all_entities():
+        items = []
+        for item in Entity.Col.find():
+            item['_id'] = str(item['_id'])
+            items.append(item)
+        return items
 
 
 class StyleOfCube(BaseMethod):

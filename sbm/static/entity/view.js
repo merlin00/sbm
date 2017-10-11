@@ -30,8 +30,15 @@ function attach_entity_view_to(selector) {
 
     $(window).resize(resize_entity_view);
 
-    //$(view).find('#_entities').hide()
     $('.ui.dropdown').dropdown();
+
+    //$(view).find("#_list").hide();
+    $(view).find("#_refresh_btn").click(function() {
+	refresh();
+    });
+
+    $(view).find("#_minimize_btn").click(hide_list);
+    $(view).find("#_maximize_btn").click(show_list);
 }
 
 function resize_entity_view() {
@@ -44,13 +51,35 @@ function add_item(topic) {
     $(document).find('#_entity #_list').append(item);
 }
 
+function hide_list() {
+    var list = $(document).find('#_entity #_list');
+    list.hide();       
+}
+
+function show_list() {
+    var list = $(document).find('#_entity #_list');
+    list.show();
+}
+
+function refresh() {
+    var list = $(document).find('#_entity');
+    list.append('<div id="_loading" class="ui active inverted dimmer"><div class="ui text loader">Loading</div></div>');
+
+    $.ajax({
+	url:"api/entity/all",
+	context: document.json
+    }).done(function(data) {
+	$(document).find('#_entity #_list').children().remove();
+	data.forEach(function(v, i){
+	    add_item(v.topic);
+	});
+	setTimeout(function() {
+	    $(document).find('#_entity #_loading').remove();
+	}, 500);
+    });    
+}
+
 $(document).ready(function() {
-    console.log('ready');
-    add_item("test");
-    add_item("test");
-    add_item("test");
-    add_item("test");
-    add_item("test");
-    add_item("test");
-})
+    refresh();
+});
 
