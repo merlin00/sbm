@@ -1,6 +1,6 @@
 var _entity_view_html;
 var _tpl;
-var _title_len = 0;
+var _max_height, _max_width;
 
 function import_entity_view(href) {
     var selector = 'link[rel="import"][href="'+ href +'"]'; 
@@ -8,41 +8,51 @@ function import_entity_view(href) {
     _tpl = _entity_view_html.querySelector('link[rel="import"]').import;
     _tpl = _tpl.querySelector('template');
 }
+
+function resize_view() {
+    var view = $('#_entity');
+    var child = view.children();
+    var row = [ $(child[0]).outerHeight(true),  // Title height			     
+	        $(child[1]).outerHeight(true),  // Filter height
+	        $(child[2]).outerHeight(true),  // Seperator height
+		$(child[3]).outerHeight()]; // entity list height
+    var total_height = row[0] + row[1] + row[2] + row[3];
+    var list_height;
+    
+    if(_max_height < total_height) {
+	list_height = view.height() - total_height + row[3];
+	$('#_entity #_list').height(list_height);
+	$('#_entity').css('height', _max_height);
+    }
+    else {
+	view.css('height', total_height);
+    }	
+}
  
-function attach_entity_view_to(selector) {
+function attach_entity_view_to(selector, max_w, max_h) {
     var view = $(_entity_view_html).find('#_entity');
     var list = $(_entity_view_html).find('#_entity #_list'); 
     
-    $(view).css('width', "100%");
-    $(view).css('height', "100%");
-
-    $(list).css('overflow-y', 'auto');
 
     $(selector).append(view);
 
-    var child = $(view).children();
+    view.css('width', max_w);
+    view.css('height', max_h);
+    view.css('display','inline-block');
+    view.css('margin','0');
 
-    _title_len += $(child[0]).height();
-    _title_len += $(child[1]).height() * 2;
-    _title_len += $(child[2]).height();
+    list.css('overflow-y', 'auto');
 
-    resize_entity_view();
-
-    $(window).resize(resize_entity_view);
+    _max_width = view.width();
+    _max_height = view.height();
 
     $('.ui.dropdown').dropdown();
 
     //$(view).find("#_list").hide();
-    $(view).find("#_refresh_btn").click(function() {
-	refresh();
-    });
-
+    $(window).resize(resize_view);
+    $(view).find("#_refresh_btn").click(refresh);
     $(view).find("#_minimize_btn").click(hide_list);
     $(view).find("#_maximize_btn").click(show_list);
-}
-
-function resize_entity_view() {
-    $('#_entity #_list').height($('#_entity').height() - _title_len);
 }
 
 function add_item(topic) {
@@ -73,9 +83,9 @@ function refresh() {
 	data.forEach(function(v, i){
 	    add_item(v.topic);
 	});
-	setTimeout(function() {
-	    $(document).find('#_entity #_loading').remove();
-	}, 500);
+
+	resize_view();
+	$(document).find('#_entity #_loading').remove();	
     });    
 }
 
